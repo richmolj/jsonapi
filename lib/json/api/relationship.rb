@@ -5,6 +5,7 @@ module JSON
       attr_reader :data, :links, :meta
 
       def initialize(relationship_hash, options = {})
+        @hash = relationship_hash
         @options = options
         @links_defined = relationship_hash.key?('links')
         @data_defined = relationship_hash.key?('data')
@@ -16,6 +17,10 @@ module JSON
         @meta = relationship_hash['meta'] if @meta_defined
 
         validate!
+      end
+
+      def to_hash
+        @hash
       end
 
       def collection?

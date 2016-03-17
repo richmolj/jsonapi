@@ -7,6 +7,7 @@ module JSON
       attr_reader :id, :type, :attributes, :relationships, :links, :meta
 
       def initialize(resource_hash, options = {})
+        @hash = resource_hash
         @options = options.dup
         @id_optional = @options.delete(:id_optional)
         validate!(resource_hash)
@@ -19,6 +20,10 @@ module JSON
         @links_hash = resource_hash['links'] || {}
         @links = Links.new(@links_hash, @options)
         @meta = resource_hash['meta'] if resource_hash.key?('meta')
+      end
+
+      def to_hash
+        @hash
       end
 
       private

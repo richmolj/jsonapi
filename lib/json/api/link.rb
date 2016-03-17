@@ -5,12 +5,18 @@ module JSON
       attr_reader :value, :href, :meta
 
       def initialize(link_hash, options = {})
+        @hash = link_hash
+
         validate!(link_hash)
         @value = link_hash
         return unless link_hash.is_a?(Hash)
 
         @href = link_hash['href']
         @meta = link_hash['meta']
+      end
+
+      def to_hash
+        @hash
       end
 
       private

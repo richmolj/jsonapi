@@ -5,8 +5,8 @@ module JSON
       attr_reader :data, :meta, :errors, :json_api, :links, :included
 
       def initialize(document_hash, options = {})
+        @hash = document_hash
         @options = options
-
         @data_defined = document_hash.key?('data')
         @data = parse_data(document_hash['data']) if @data_defined
         @meta_defined = document_hash.key?('meta')
@@ -23,6 +23,10 @@ module JSON
           @included_defined
 
         validate!
+      end
+
+      def to_hash
+        @hash
       end
 
       def collection?

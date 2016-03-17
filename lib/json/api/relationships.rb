@@ -8,6 +8,8 @@ module JSON
         fail InvalidDocument,
              "the value of 'relationships' MUST be an object" unless
           relationships_hash.is_a?(Hash)
+
+        @hash = relationships_hash
         @relationships = {}
         relationships_hash.each do |rel_name, rel_hash|
           @relationships[rel_name.to_s] = Relationship.new(rel_hash, options)
@@ -15,6 +17,10 @@ module JSON
             @relationships[rel_name.to_s]
           end
         end
+      end
+
+      def to_hash
+        @hash
       end
 
       def each(&block)

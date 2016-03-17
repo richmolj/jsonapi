@@ -2,43 +2,47 @@ require 'json/api'
 
 describe JSON::API, '#parse' do
   before(:all) do
-    @payload = {
-      'data' => [
-        {
-          'type' => 'articles',
-          'id' => '1',
-          'attributes' => {
-            'title' => 'JSON API paints my bikeshed!'
-          },
-          'links' => {
-            'self' => 'http://example.com/articles/1'
-          },
-          'relationships' => {
-            'author' => {
-              'links' => {
-                'self' => 'http://example.com/articles/1/relationships/author',
-                'related' => 'http://example.com/articles/1/author'
-              },
-              'data' => { 'type' => 'people', 'id' => '9' }
-            },
-            'journal' => {
-              'data' => nil
-            },
-            'comments' => {
-              'links' => {
-                'self' => 'http://example.com/articles/1/relationships/comments',
-                'related' => 'http://example.com/articles/1/comments'
-              },
-              'data' => [
-                { 'type' => 'comments', 'id' => '5' },
-                { 'type' => 'comments', 'id' => '12' }
-              ]
-            }
-          }
-        }],
-      'meta' => {
-        'count' => '13'
+    @author_links_hash = {
+      'self' => 'http://example.com/articles/1/relationships/author',
+      'related' => 'http://example.com/articles/1/author'
+    }
+    @author_data_hash = { 'type' => 'people', 'id' => '9' }
+    @comments_data_hash = [
+      { 'type' => 'comments', 'id' => '5' },
+      { 'type' => 'comments', 'id' => '12' }
+    ]
+    @article_relationships_hash = {
+      'author' => {
+        'links' => @author_links_hash,
+        'data' => @author_data_hash
+      },
+      'journal' => {
+        'data' => nil
+      },
+      'comments' => {
+        'links' => {
+          'self' => 'http://example.com/articles/1/relationships/comments',
+          'related' => 'http://example.com/articles/1/comments'
+        },
+        'data' => @comments_data_hash
       }
+    }
+    @article_attributes_hash = { 'title' => 'JSON API paints my bikeshed!' }
+    @article_links_hash = { 'self' => 'http://example.com/articles/1' }
+    @data_hash = [{
+      'type' => 'articles',
+      'id' => '1',
+      'attributes' => @article_attributes_hash,
+      'links' => @article_links_hash,
+      'relationships' => @article_relationships_hash
+    }]
+    @meta_hash = {
+      'count' => '13'
+    }
+
+    @payload = {
+      'data' => @data_hash,
+      'meta' => @meta_hash
     }
   end
 
@@ -78,5 +82,16 @@ describe JSON::API, '#parse' do
     expect(document.data.first.relationships.defined?(:journal)).to be_truthy
     expect(document.data.first.relationships.journal.collection?).to be_falsy
     expect(document.data.first.relationships.journal.data).to eq nil
+
+    expect(document.to_hash).to eq @payload
+    expect(document.data.map(&:to_hash)).to eq @data_hash
+
+    expect(document.data.first.attributes.to_hash).to eq @article_attributes_hash
+    expect(document.data.first.links.to_hash).to eq @article_links_hash
+    expect(document.data.first.relationships.to_hash).to eq @article_relationships_hash
+
+    expect(document.data.first.relationships.author.links.to_hash).to eq @author_links_hash
+    expect(document.data.first.relationships.author.data.to_hash).to eq @author_data_hash
+    expect(document.data.first.relationships.comments.data.map(&:to_hash)).to eq @comments_data_hash
   end
 end
