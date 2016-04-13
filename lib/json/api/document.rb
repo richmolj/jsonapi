@@ -90,7 +90,7 @@ module JSON
       end
 
       def parse_errors(errors_hash)
-        fails InvalidDocument,
+        fail InvalidDocument,
               "the value of 'errors' MUST be an array of error objects" unless
           errors_hash.is_a?(Array)
 
