@@ -28,6 +28,11 @@ Then, parse a JSON API document:
 document = JSON::API.parse(hash_or_json_string)
 ```
 
+or an [include directive](http://jsonapi.org/format/#fetching-includes):
+```ruby
+include_directive = JSON::API::IncludeDirective.new(include_args)
+```
+
 ## Examples
 
 ```ruby
