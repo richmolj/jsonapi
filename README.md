@@ -5,7 +5,7 @@ Parse and validate [JSON API](http://jsonapi.org) documents.
 
 Add the following to your application's Gemfile:
 ```ruby
-gem 'jsonapi_parser', '~>0.4'
+gem 'jsonapi_parser', '~>0.5'
 ```
 And then execute:
 ```
