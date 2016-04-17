@@ -7,7 +7,7 @@ env:
 rvm:
   - 2.1
   - 2.2
-  - 2.3
+  - 2.3.0
 matrix:
   exclude:
     - rvm: 2.1
