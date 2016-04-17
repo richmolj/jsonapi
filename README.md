@@ -40,6 +40,14 @@ include_directive = JSON::API::IncludeDirective.new(include_args)
   # Should the document be invalid, the parse method would fail with an
   #   InvalidDocument error.
 
+  document.data.to_activerecord_hash
+  # => {
+  #      id: '1',
+  #      title: 'JSON API paints my bikeshed!',
+  #      author_id: '9',
+  #      comment_ids: ['5', '12']
+  #    }
+
   document.data.links.defined?(:self)
   # => true
   document.data.links.self.value

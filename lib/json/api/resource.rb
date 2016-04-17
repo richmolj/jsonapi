@@ -1,3 +1,5 @@
+require 'json/api/resource/active_record'
+
 module JSON
   module API
     # c.f. http://jsonapi.org/format/#document-resource-objects
