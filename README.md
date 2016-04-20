@@ -138,4 +138,4 @@ Notes:
 jsonapi_parser is Copyright © 2016 Lucas Hosseini.
 
 It is free software, and may be redistributed under the terms specified in the
-[LICENSE](LICENSE.md) file.
+[LICENSE](LICENSE) file.
