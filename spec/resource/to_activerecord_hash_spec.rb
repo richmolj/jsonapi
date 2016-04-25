@@ -56,4 +56,21 @@ describe JSON::API::Resource, '.to_activerecord_hash' do
 
     expect(actual).to eq expected
   end
+
+  it 'whitelists all attributes/relationships by default' do
+    document = JSON::API.parse(@payload)
+
+    actual = document.data.to_activerecord_hash
+    expected = {
+      id: '1',
+      title: 'JSON API paints my bikeshed!',
+      rating: '5 stars',
+      author_id: '9',
+      referree_id: nil,
+      :'publishing-journal_id' => nil,
+      comment_ids: ['5', '12']
+    }
+
+    expect(actual).to eq expected
+  end
 end
