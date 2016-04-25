@@ -66,6 +66,8 @@ module JSON
       #   * :key_formatter (lambda)
       # @return [Hash]
       def to_activerecord_hash(options = {})
+        options[:attributes] ||= {}
+        options[:relationships] ||= {}
         hash = {}
         hash[:id] = id unless id.nil?
         hash.merge!(attributes_for_activerecord_hash(options))
