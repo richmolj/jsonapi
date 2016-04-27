@@ -2,6 +2,8 @@ module JSON
   module API
     # c.f. http://jsonapi.org/format/#document-resource-object-relationships
     class Relationships
+      include Enumerable
+
       def initialize(relationships_hash, options = {})
         fail InvalidDocument,
              "the value of 'relationships' MUST be an object" unless
@@ -13,6 +15,10 @@ module JSON
             @relationships[rel_name.to_s]
           end
         end
+      end
+
+      def each(&block)
+        @relationships.each(&block)
       end
 
       def [](rel_name)

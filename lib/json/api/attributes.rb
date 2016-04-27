@@ -2,6 +2,8 @@ module JSON
   module API
     # c.f. http://jsonapi.org/format/#document-resource-object-attributes
     class Attributes
+      include Enumerable
+
       def initialize(attributes_hash, options = {})
         fail InvalidDocument,
              "the value of 'attributes' MUST be an object" unless
@@ -13,6 +15,10 @@ module JSON
             @attributes[attr_name.to_s]
           end
         end
+      end
+
+      def each(&block)
+        @attributes.each(&block)
       end
 
       def [](attr_name)
