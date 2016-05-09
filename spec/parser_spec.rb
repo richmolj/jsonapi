@@ -35,13 +35,18 @@ describe JSON::API, '#parse' do
               ]
             }
           }
-        }]
+        }],
+      'meta' => {
+        'count' => '13'
+      }
     }
   end
 
   it 'works' do
     document = JSON::API.parse(@payload)
 
+    expect(document.meta.keys).to eq ['count']
+    expect(document.meta['count']).to eq '13'
     expect(document.data.first.links.keys).to eq ['self']
     expect(document.data.first.links.defined?(:self)).to be_truthy
     expect(document.data.first.links.self.value).to eq 'http://example.com/articles/1'
