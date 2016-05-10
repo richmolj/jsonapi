@@ -52,9 +52,12 @@ module JSON
       end
 
       def duplicates?
-        return true unless @included
+        resources = Set.new
 
-        # TODO
+        (Array(data) + Array(included)).each do |resource|
+          return true unless resources.add?([resource.type, resource.id])
+        end
+
         false
       end
 
