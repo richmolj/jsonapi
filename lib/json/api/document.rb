@@ -64,8 +64,27 @@ module JSON
       def full_linkage?
         return true unless @included
 
-        # TODO
-        true
+        reachable = Set.new
+        # NOTE(lucas): Does Array() already dup?
+        queue = Array(data).dup
+        included_resources = Hash[included.map { |r| [[r.type, r.id], r] }]
+        queue.each { |resource| reachable << [resource.type, resource.id] }
+
+        traverse = lambda do |rel|
+          ri = [rel.type, rel.id]
+          return unless included_resources[ri]
+          return unless reachable.add?(ri)
+          queue << included_resources[ri]
+        end
+
+        until queue.empty?
+          resource = queue.pop
+          resource.relationships.each do |_, rel|
+            Array(rel.data).map(&traverse)
+          end
+        end
+
+        included_resources.keys.all? { |ri| reachable.include?(ri) }
       end
 
       def parse_data(data_hash)
