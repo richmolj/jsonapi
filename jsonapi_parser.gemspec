@@ -3,13 +3,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jsonapi/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'jsonapi_parser'
+  spec.name          = 'jsonapi'
   spec.version       = JSONAPI::VERSION
   spec.authors       = ['Lucas Hosseini']
   spec.email         = ['lucas.hosseini@gmail.com']
-  spec.summary       = 'Parse JSON API documents'
-  spec.description   = 'Parser for JSON API documents'
-  spec.homepage      = 'https://github.com/beauby/jsonapi_parser'
+  spec.summary       = 'Parse and validate JSON API documents'
+  spec.description   = 'Tools for handling JSON API documents'
+  spec.homepage      = 'https://github.com/beauby/jsonapi'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
