@@ -1,6 +1,6 @@
-require 'json/api'
+require 'jsonapi'
 
-describe JSON::API, '#parse' do
+describe JSONAPI, '#parse' do
   it 'succeeds when there are no duplicates' do
     payload = {
       'data' => [
@@ -38,7 +38,7 @@ describe JSON::API, '#parse' do
         }]
     }
 
-    JSON::API.parse(payload, verify_duplicates: true)
+    JSONAPI.parse(payload, verify_duplicates: true)
   end
 
   it 'fails when there are duplicates within primary data' do
@@ -53,8 +53,8 @@ describe JSON::API, '#parse' do
         }]
     }
 
-    expect { JSON::API.parse(payload, verify_duplicates: true) }
-      .to raise_error(JSON::API::InvalidDocument)
+    expect { JSONAPI.parse(payload, verify_duplicates: true) }
+      .to raise_error(JSONAPI::InvalidDocument)
   end
 
   it 'fails when there are duplicates within included' do
@@ -70,8 +70,8 @@ describe JSON::API, '#parse' do
         }]
     }
 
-    expect { JSON::API.parse(payload, verify_duplicates: true) }
-      .to raise_error(JSON::API::InvalidDocument)
+    expect { JSONAPI.parse(payload, verify_duplicates: true) }
+      .to raise_error(JSONAPI::InvalidDocument)
   end
 
   it 'fails when there are duplicates within primary data' do
@@ -89,7 +89,7 @@ describe JSON::API, '#parse' do
         }]
     }
 
-    expect { JSON::API.parse(payload, verify_duplicates: true) }
-      .to raise_error(JSON::API::InvalidDocument)
+    expect { JSONAPI.parse(payload, verify_duplicates: true) }
+      .to raise_error(JSONAPI::InvalidDocument)
   end
 end

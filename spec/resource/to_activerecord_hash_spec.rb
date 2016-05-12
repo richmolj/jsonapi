@@ -1,6 +1,6 @@
-require 'json/api'
+require 'jsonapi'
 
-describe JSON::API::Resource, '.to_activerecord_hash' do
+describe JSONAPI::Resource, '.to_activerecord_hash' do
   before(:all) do
     @payload = {
       'data' => {
@@ -32,7 +32,7 @@ describe JSON::API::Resource, '.to_activerecord_hash' do
   end
 
   it 'works' do
-    document = JSON::API.parse(@payload)
+    document = JSONAPI.parse(@payload)
 
     options = {
       attributes: {
@@ -58,7 +58,7 @@ describe JSON::API::Resource, '.to_activerecord_hash' do
   end
 
   it 'whitelists all attributes/relationships by default' do
-    document = JSON::API.parse(@payload)
+    document = JSONAPI.parse(@payload)
 
     actual = document.data.to_activerecord_hash
     expected = {

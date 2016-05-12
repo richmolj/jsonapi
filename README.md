@@ -20,23 +20,23 @@ $ gem install jsonapi_parser
 
 First, `require` the gem.
 ```ruby
-require 'json/api'
+require 'jsonapi'
 ```
 
 Then, parse a JSON API document:
 ```ruby
-document = JSON::API.parse(hash_or_json_string)
+document = JSONAPI.parse(hash_or_json_string)
 ```
 
 or an [include directive](http://jsonapi.org/format/#fetching-includes):
 ```ruby
-include_directive = JSON::API::IncludeDirective.new(include_args)
+include_directive = JSONAPI::IncludeDirective.new(include_args)
 ```
 
 ## Examples
 
 ```ruby
-  document = JSON::API.parse(json_document)
+  document = JSONAPI.parse(json_document)
   # Should the document be invalid, the parse method would fail with an
   #   InvalidDocument error.
 

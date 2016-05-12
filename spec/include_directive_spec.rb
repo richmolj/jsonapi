@@ -1,23 +1,23 @@
-require 'json/api/include_directive'
+require 'jsonapi/include_directive'
 
-describe JSON::API::IncludeDirective, '.key?' do
+describe JSONAPI::IncludeDirective, '.key?' do
   it 'handles existing keys' do
     str = 'posts.comments'
-    include_directive = JSON::API::IncludeDirective.new(str)
+    include_directive = JSONAPI::IncludeDirective.new(str)
 
     expect(include_directive.key?(:posts)).to be_truthy
   end
 
   it 'handles absent keys' do
     str = 'posts.comments'
-    include_directive = JSON::API::IncludeDirective.new(str)
+    include_directive = JSONAPI::IncludeDirective.new(str)
 
     expect(include_directive.key?(:author)).to be_falsy
   end
 
   it 'handles wildcards' do
     str = 'posts.*'
-    include_directive = JSON::API::IncludeDirective.new(
+    include_directive = JSONAPI::IncludeDirective.new(
       str, allow_wildcard: true)
 
     expect(include_directive[:posts].key?(:author)).to be_truthy
@@ -26,7 +26,7 @@ describe JSON::API::IncludeDirective, '.key?' do
 
   it 'handles wildcards' do
     str = 'posts.**'
-    include_directive = JSON::API::IncludeDirective.new(
+    include_directive = JSONAPI::IncludeDirective.new(
       str, allow_wildcard: true)
 
     expect(include_directive[:posts].key?(:author)).to be_truthy
@@ -34,12 +34,12 @@ describe JSON::API::IncludeDirective, '.key?' do
   end
 end
 
-describe JSON::API::IncludeDirective, '.to_string' do
+describe JSONAPI::IncludeDirective, '.to_string' do
   it 'works' do
     str = 'friends,comments.author,posts.author,posts.comments.author'
-    include_directive = JSON::API::IncludeDirective.new(str)
+    include_directive = JSONAPI::IncludeDirective.new(str)
     expected = include_directive.to_hash
-    actual = JSON::API::IncludeDirective.new(include_directive.to_string)
+    actual = JSONAPI::IncludeDirective.new(include_directive.to_string)
                                         .to_hash
 
     expect(actual).to eq expected

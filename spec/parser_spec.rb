@@ -1,6 +1,6 @@
-require 'json/api'
+require 'jsonapi'
 
-describe JSON::API, '#parse' do
+describe JSONAPI, '#parse' do
   before(:all) do
     @author_links_hash = {
       'self' => 'http://example.com/articles/1/relationships/author',
@@ -47,7 +47,7 @@ describe JSON::API, '#parse' do
   end
 
   it 'works' do
-    document = JSON::API.parse(@payload)
+    document = JSONAPI.parse(@payload)
 
     expect(document.meta.keys).to eq ['count']
     expect(document.meta['count']).to eq '13'
