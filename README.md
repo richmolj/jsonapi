@@ -1,11 +1,11 @@
-# jsonapi_parser
-Parse and validate [JSON API](http://jsonapi.org) documents.
+# jsonapi
+Ruby gem for parsing/validating [JSON API](http://jsonapi.org) documents.
 
 ## Installation
 
 Add the following to your application's Gemfile:
 ```ruby
-gem 'jsonapi_parser', '~>0.5'
+gem 'jsonapi'
 ```
 And then execute:
 ```
@@ -13,7 +13,7 @@ $ bundle
 ```
 Or install it manually as:
 ```
-$ gem install jsonapi_parser
+$ gem install jsonapi
 ```
 
 ## Usage
