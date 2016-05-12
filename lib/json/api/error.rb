@@ -8,6 +8,8 @@ module JSON
         fail InvalidDocument,
              "the value of 'errors' MUST be an array of error objects" unless
           error_hash.is_a?(Hash)
+
+        @hash = error_hash
         @id = error_hash['id'] if error_hash.key?('id')
         links_hash = error_hash['links'] || {}
         @links = Links.new(links_hash, options)
@@ -17,6 +19,10 @@ module JSON
         @detail = error_hash['detail'] if error_hash.key?('detail')
         @source = error_hash['source'] if error_hash.key?('source')
         @meta = error_hash['meta'] if error_hash.key?('meta')
+      end
+
+      def to_hash
+        @hash
       end
     end
   end

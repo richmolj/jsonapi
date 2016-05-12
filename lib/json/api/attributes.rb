@@ -8,6 +8,8 @@ module JSON
         fail InvalidDocument,
              "the value of 'attributes' MUST be an object" unless
           attributes_hash.is_a?(Hash)
+
+        @hash = attributes_hash
         @attributes = {}
         attributes_hash.each do |attr_name, attr_val|
           @attributes[attr_name.to_s] = attr_val
@@ -15,6 +17,10 @@ module JSON
             @attributes[attr_name.to_s]
           end
         end
+      end
+
+      def to_hash
+        @hash
       end
 
       def each(&block)

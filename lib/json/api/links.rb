@@ -5,6 +5,8 @@ module JSON
       def initialize(links_hash, options = {})
         fail InvalidDocument, "the value of 'links' MUST be an object" unless
           links_hash.is_a?(Hash)
+
+        @hash = links_hash
         @links = {}
         links_hash.each do |link_name, link_val|
           @links[link_name.to_s] = Link.new(link_val, options)
@@ -12,6 +14,10 @@ module JSON
             @links[link_name.to_s]
           end
         end
+      end
+
+      def to_hash
+        @hash
       end
 
       def defined?(link_name)
