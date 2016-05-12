@@ -1,6 +1,6 @@
-require 'json/api'
+require 'jsonapi'
 
-describe JSON::API, '#parse' do
+describe JSONAPI, '#parse' do
   it 'succeeds when no included property is provided' do
     payload = {
       'data' => [
@@ -38,7 +38,7 @@ describe JSON::API, '#parse' do
         }]
     }
 
-    JSON::API.parse(payload, verify_linkage: true)
+    JSONAPI.parse(payload, verify_linkage: true)
   end
 
   it 'succeeds when full linkage is respected' do
@@ -103,7 +103,7 @@ describe JSON::API, '#parse' do
       ]
     }
 
-    JSON::API.parse(payload, verify_linkage: true)
+    JSONAPI.parse(payload, verify_linkage: true)
   end
 
   it 'fails when full linkage is not respected' do
@@ -155,7 +155,7 @@ describe JSON::API, '#parse' do
       ]
     }
 
-    expect { JSON::API.parse(payload, verify_linkage: true) }
-      .to raise_error(JSON::API::InvalidDocument)
+    expect { JSONAPI.parse(payload, verify_linkage: true) }
+      .to raise_error(JSONAPI::InvalidDocument)
   end
 end
