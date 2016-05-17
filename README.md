@@ -40,14 +40,6 @@ include_directive = JSONAPI::IncludeDirective.new(include_args)
   # Should the document be invalid, the parse method would fail with an
   #   InvalidDocument error.
 
-  document.data.to_activerecord_hash
-  # => {
-  #      id: '1',
-  #      title: 'JSON API paints my bikeshed!',
-  #      author_id: '9',
-  #      comment_ids: ['5', '12']
-  #    }
-
   document.data.links.defined?(:self)
   # => true
   document.data.links.self.value
@@ -135,7 +127,7 @@ Notes:
 
 ## License
 
-jsonapi_parser is Copyright © 2016 Lucas Hosseini.
+jsonapi is Copyright © 2016 Lucas Hosseini.
 
 It is free software, and may be redistributed under the terms specified in the
 [LICENSE](LICENSE) file.
