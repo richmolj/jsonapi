@@ -1,5 +1,3 @@
-require 'active_support/core_ext/hash/deep_merge'
-
 module JSONAPI
   class IncludeDirective
     # Utilities to create an IncludeDirective hash from various types of
@@ -28,7 +26,7 @@ module JSONAPI
         include_string.split(',')
           .map(&:strip)
           .each_with_object({}) do |path, hash|
-          hash.deep_merge!(parse_path_string(path))
+            deep_merge!(hash, parse_path_string(path))
         end
       end
 
@@ -49,7 +47,18 @@ module JSONAPI
       # @api private
       def parse_array(include_array)
         include_array.each_with_object({}) do |x, hash|
-          hash.deep_merge!(parse_include_args(x))
+          deep_merge!(hash, parse_include_args(x))
+        end
+      end
+
+      # @api private
+      def deep_merge!(src, ext)
+        ext.each do |k, v|
+          if src[k].is_a?(Hash) && v.is_a?(Hash)
+            deep_merge!(src[k], v)
+          else
+            src[k] = v
+          end
         end
       end
     end
