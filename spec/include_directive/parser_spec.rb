@@ -16,13 +16,26 @@ describe JSONAPI::IncludeDirective::Parser, '.parse_include_args' do
     expect(hash).to eq expected
   end
 
-  it 'handles strings with spaces' do
-    str = 'friends, comments.author, posts.author, posts.comments.author'
+  it 'handles strings' do
+    str = 'friends,comments.author,posts.author,posts.comments.author'
     hash = JSONAPI::IncludeDirective::Parser.parse_include_args(str)
     expected = {
       friends: {},
       comments: { author: {} },
       posts: { author: {}, comments: { author: {} } }
+    }
+
+    expect(hash).to eq expected
+  end
+
+  it 'treats spaces as part of the resource name' do
+    str = 'friends, comments.author , posts.author,posts. comments.author'
+    hash = JSONAPI::IncludeDirective::Parser.parse_include_args(str)
+    expected = {
+      friends: {},
+      :' comments' => { :'author ' => {} },
+      :' posts' => { author: {} },
+      :'posts' => { :' comments' => { author: {} } }
     }
 
     expect(hash).to eq expected
