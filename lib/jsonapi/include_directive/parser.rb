@@ -24,7 +24,6 @@ module JSONAPI
       # @api private
       def parse_string(include_string)
         include_string.split(',')
-          .map(&:strip)
           .each_with_object({}) do |path, hash|
             deep_merge!(hash, parse_path_string(path))
         end
