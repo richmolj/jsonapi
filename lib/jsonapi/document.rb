@@ -20,6 +20,7 @@ module JSONAPI
       @included_defined = document_hash.key?('included')
       @included = parse_included(document_hash['included']) if
         @included_defined
+      @index = Hash[(Array(data) + Array(included)).map { |r| [[r.type, r.id], r] }]
 
       validate!
     end
@@ -70,14 +71,13 @@ module JSONAPI
       reachable = Set.new
       # NOTE(lucas): Does Array() already dup?
       queue = Array(data).dup
-      included_resources = Hash[included.map { |r| [[r.type, r.id], r] }]
       queue.each { |resource| reachable << [resource.type, resource.id] }
 
       traverse = lambda do |rel|
         ri = [rel.type, rel.id]
-        return unless included_resources[ri]
+        return unless @index[ri]
         return unless reachable.add?(ri)
-        queue << included_resources[ri]
+        queue << @index[ri]
       end
 
       until queue.empty?
@@ -87,7 +87,7 @@ module JSONAPI
         end
       end
 
-      included_resources.keys.all? { |ri| reachable.include?(ri) }
+      @index.keys.all? { |ri| reachable.include?(ri) }
     end
 
     def parse_data(data_hash)
