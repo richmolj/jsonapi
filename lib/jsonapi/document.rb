@@ -20,7 +20,8 @@ module JSONAPI
       @included_defined = document_hash.key?('included')
       @included = parse_included(document_hash['included']) if
         @included_defined
-      @index = Hash[(Array(data) + Array(included)).map { |r| [[r.type, r.id], r] }]
+
+      link_relationships if @options[:link_relationships]
 
       validate!
     end
@@ -55,6 +56,18 @@ module JSONAPI
       end
     end
 
+    def index
+      @index ||= Hash[(Array(data) + Array(included)).map { |r| [[r.type, r.id], r] }]
+    end
+
+    def link_relationships
+      (Array(data) + Array(included)).each do |resource|
+        resource.relationships.each do |_, rel|
+          rel.link_resources(index)
+        end
+      end
+    end
+
     def duplicates?
       resources = Set.new
 
@@ -75,9 +88,9 @@ module JSONAPI
 
       traverse = lambda do |rel|
         ri = [rel.type, rel.id]
-        return unless @index[ri]
+        return unless index[ri]
         return unless reachable.add?(ri)
-        queue << @index[ri]
+        queue << index[ri]
       end
 
       until queue.empty?
@@ -87,7 +100,7 @@ module JSONAPI
         end
       end
 
-      @index.keys.all? { |ri| reachable.include?(ri) }
+      index.keys.all? { |ri| reachable.include?(ri) }
     end
 
     def parse_data(data_hash)
