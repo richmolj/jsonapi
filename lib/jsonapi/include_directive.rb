@@ -12,7 +12,7 @@ module JSONAPI
   # @example 'posts.**' # => Include related posts, and all the included
   #   posts' related resources, and their related resources, recursively.
   class IncludeDirective
-    # @param include_args (see Parser.include_hash_from_include_args)
+    # @param include_args (see Parser.parse_include_args)
     def initialize(include_args, options = {})
       include_hash = Parser.parse_include_args(include_args)
       @hash = include_hash.each_with_object({}) do |(key, value), hash|
