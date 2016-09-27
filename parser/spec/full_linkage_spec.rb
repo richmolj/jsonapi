@@ -1,6 +1,6 @@
-require 'jsonapi'
+require 'jsonapi/parser'
 
-describe JSONAPI, '#parse' do
+describe JSONAPI::Parser, '#parse' do
   it 'succeeds when no included property is provided' do
     payload = {
       'data' => [
@@ -156,6 +156,6 @@ describe JSONAPI, '#parse' do
     }
 
     expect { JSONAPI.parse(payload, verify_linkage: true) }
-      .to raise_error(JSONAPI::InvalidDocument)
+      .to raise_error(JSONAPI::Parser::InvalidDocument)
   end
 end

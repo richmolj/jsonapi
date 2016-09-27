@@ -1,6 +1,6 @@
-require 'jsonapi'
+require 'jsonapi/parser'
 
-describe JSONAPI, '#parse' do
+describe JSONAPI::Parser, '#parse' do
   before(:all) do
     @author_links_hash = {
       'self' => 'http://example.com/articles/1/relationships/author',
